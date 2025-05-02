@@ -29,41 +29,43 @@ const InventoryHotbar: React.FC = () => {
       <div className="hotbar-container">
         {items.map((item) => (
           <div
-            className="hotbar-item-slot"
-            style={{
-              backgroundImage: `url(${item?.name ? getItemUrl(item as SlotWithItem) : 'none'}`,
-            }}
-            key={`hotbar-${item.slot}`}
+            className="inventory-slot-wrapper"
+
+            {...(isSlotWithItem(item) && {
+              style: {
+                backgroundColor: 'rgba(213, 213, 213, 0.05)',
+                border: '1px solid rgba(163, 166, 168, 0.12)',
+                borderRadius: '.4167vw',
+              }
+            })}
           >
-            {isSlotWithItem(item) && (
-              <div className="item-slot-wrapper">
-                <div className="hotbar-slot-header-wrapper">
-                  <div className="inventory-slot-number">{item.slot}</div>
-                  <div className="item-slot-info-wrapper">
-                    <p>
-                      {item.weight > 0
-                        ? item.weight >= 1000
-                          ? `${(item.weight / 1000).toLocaleString('en-us', {
-                              minimumFractionDigits: 2,
-                            })}kg `
-                          : `${item.weight.toLocaleString('en-us', {
-                              minimumFractionDigits: 0,
-                            })}g `
-                        : ''}
-                    </p>
-                    <p>{item.count ? item.count.toLocaleString('en-us') + `x` : ''}</p>
+            <div
+              className="hotbar-item-slot"
+              style={{
+                backgroundImage: `url(${item?.name ? getItemUrl(item as SlotWithItem) : 'none'}`,
+                backgroundColor: 'rgba(213, 213, 213, 0.05)',
+                border: '1px solid rgba(163, 166, 168, 0.12)',
+                borderRadius: '.4167vw',
+              }}
+              key={`hotbar-${item.slot}`}
+            >
+              {!isSlotWithItem(item) && (
+                <div className="item-slot-wrapper hotbar-slot-wrapper">
+                <div className="inventory-slot-number">{item.slot}</div>
+                  <div className="item-slot-info-wrapper hotbar-slot-info">
+                    {/* <p>{item.count ? item.count.toLocaleString('en-us') + `x` : ''}</p> */}
                   </div>
-                </div>
-                <div>
-                  {item?.durability !== undefined && <WeightBar percent={item.durability} durability />}
-                  <div className="inventory-slot-label-box">
-                    <div className="inventory-slot-label-text">
-                      {item.metadata?.label ? item.metadata.label : Items[item.name]?.label || item.name}
-                    </div>
-                  </div>
-                </div>
               </div>
-            )}
+              )}
+              {isSlotWithItem(item) && (
+                <div className="item-slot-wrapper hotbar-slot-wrapper">
+                  <div className="inventory-slot-number">{item.slot}</div>
+                    <div className="item-slot-info-wrapper hotbar-slot-info">
+                      {/* <p>{item.count ? item.count.toLocaleString('en-us') + `x` : ''}</p> */}
+                    </div>
+                </div>
+              )}
+            </div>
           </div>
         ))}
       </div>

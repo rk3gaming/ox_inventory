@@ -5,6 +5,8 @@ import SlotTooltip from '../inventory/SlotTooltip';
 
 const Tooltip: React.FC = () => {
   const hoverData = useAppSelector((state) => state.tooltip);
+  const clientX = hoverData.coords?.x || 0;
+  const clientY = hoverData.coords?.y || 0;
 
   const { refs, context, floatingStyles } = useFloating({
     middleware: [flip(), shift(), offset({ mainAxis: 10, crossAxis: 10 })],
@@ -16,30 +18,7 @@ const Tooltip: React.FC = () => {
     duration: 200,
   });
 
-  const handleMouseMove = ({ clientX, clientY }: MouseEvent | React.MouseEvent<unknown, MouseEvent>) => {
-    refs.setPositionReference({
-      getBoundingClientRect() {
-        return {
-          width: 0,
-          height: 0,
-          x: clientX,
-          y: clientY,
-          left: clientX,
-          top: clientY,
-          right: clientX,
-          bottom: clientY,
-        };
-      },
-    });
-  };
-
-  useEffect(() => {
-    window.addEventListener('mousemove', handleMouseMove);
-
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-    };
-  }, []);
+  styles.transform = `translate(${clientX}px, ${clientY}px)`;
 
   return (
     <>
@@ -50,6 +29,7 @@ const Tooltip: React.FC = () => {
             style={{ ...floatingStyles, ...styles }}
             item={hoverData.item!}
             inventoryType={hoverData.inventoryType!}
+            coords={hoverData.coords ? { x: hoverData.coords.x, y: hoverData.coords.y } : { x: 0, y: 0 }}
           />
         </FloatingPortal>
       )}

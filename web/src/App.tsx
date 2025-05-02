@@ -16,13 +16,17 @@ debugData([
   {
     action: 'setupInventory',
     data: {
+      playerData: {
+        playerID: '1',
+      },
       leftInventory: {
         id: 'test',
         type: 'player',
         slots: 50,
         label: 'Bob Smith',
         weight: 3000,
-        maxWeight: 5000,
+        maxWeight: 50000,
+        backpackDisabled: false,
         items: [
           {
             slot: 1,
@@ -42,7 +46,7 @@ debugData([
           {
             slot: 4,
             name: 'water',
-            weight: 100,
+            weight: 10000,
             count: 1,
             metadata: { description: 'Generic item description' },
           },
@@ -53,15 +57,23 @@ debugData([
             weight: 100,
             count: 1,
             metadata: {
-              label: 'Russian Cream',
+              label: 'Cream',
               imageurl: 'https://i.imgur.com/2xHhTTz.png',
             },
           },
+          { slot: 7, name: 'weapon_pistol', weight: 10, count: 1, metadata: { durability: 75,
+            description: `name: Svetozar Miletic  \n Gender: Male`,
+            ammo: 3,
+            mustard: '60%',
+            ketchup: '30%',
+            mayo: '10%',
+
+           } },
         ],
       },
       rightInventory: {
         id: 'shop',
-        type: 'crafting',
+        type: 'shop',
         slots: 5000,
         label: 'Bob Smith',
         weight: 3000,
@@ -83,6 +95,7 @@ debugData([
           },
         ],
       },
+      
     },
   },
 ]);
